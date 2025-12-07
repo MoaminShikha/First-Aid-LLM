@@ -1,0 +1,21 @@
+torch
+# Note: Unsloth is best installed directly via their command, but we list helpers here
+xformers
+bitsandbytes
+triton
+cut_cross_entropy
+unsloth_zoo
+sentencepiece
+protobuf
+datasets>=3.4.1
+huggingface_hub
+hf_transfer
+transformers==4.51.3
+matplotlib
+seaborn
+scikit-learn
+pandas
+numpy
+trl
+peft
+accelerate
