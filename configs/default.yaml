@@ -1,0 +1,61 @@
+# Default configuration for training First Aid Llama with Unsloth
+run_name: first_aid_llm
+seed: 3407
+
+model:
+  name: unsloth/Meta-Llama-3.1-8B-Instruct-bnb-4bit
+  max_seq_length: 2048
+  dtype: null
+  load_in_4bit: true
+
+lora:
+  r: 4
+  alpha: 4
+  dropout: 0.1
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+training:
+  per_device_train_batch_size: 8
+  gradient_accumulation_steps: 4
+  warmup_steps: 10
+  eval_strategy: steps
+  eval_steps: 50
+  logging_steps: 50
+  max_steps: 400
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  lr_scheduler_type: cosine_with_restarts
+  output_dir: outputs
+  report_to: none
+  save_total_limit: 2
+  load_best_model_at_end: true
+  metric_for_best_model: eval_loss
+  greater_is_better: false
+
+splits:
+  validation_size: 0.15
+  test_size: 0.15
+  shuffle: true
+
+dataset:
+  name: FreedomIntelligence/medical-o1-reasoning-SFT
+  config: en
+  question_field: Question
+  answer_field: Response
+  min_question_length: 10
+  min_answer_length: 10
+  max_question_length: 500
+  max_answer_length: 1000
+
+inference:
+  max_new_tokens: 64
+  temperature: 0.8
+  top_p: 0.9
+  safety_prefix: "This model is not a medical professional. In emergencies, call local emergency services."
